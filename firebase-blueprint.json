@@ -1,0 +1,239 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile in Vandeya platform",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "maxLength": 128 },
+        "vandeyaId": { "type": "string", "maxLength": 20 },
+        "email": { "type": "string", "maxLength": 256 },
+        "displayName": { "type": "string", "maxLength": 100 },
+        "username": { "type": "string", "maxLength": 50, "pattern": "^[a-zA-Z0-9_]+$" },
+        "bio": { "type": "string", "maxLength": 500 },
+        "photoURL": { "type": "string", "maxLength": 1024 },
+        "bannerURL": { "type": "string", "maxLength": 1024 },
+        "isVerified": { "type": "boolean" },
+        "isPrivate": { "type": "boolean" },
+        "role": { "type": "string", "enum": ["user", "creator", "admin"] },
+        "language": { "type": "string", "maxLength": 20 },
+        "followersCount": { "type": "number" },
+        "followingCount": { "type": "number" },
+        "postsCount": { "type": "number" },
+        "isSuspended": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["uid", "email", "displayName", "username"]
+    },
+    "Post": {
+      "title": "Post",
+      "description": "Vandeya social feed post",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "authorId": { "type": "string", "maxLength": 128 },
+        "authorName": { "type": "string", "maxLength": 100 },
+        "authorUsername": { "type": "string", "maxLength": 50 },
+        "authorPhotoURL": { "type": "string", "maxLength": 1024 },
+        "content": { "type": "string", "maxLength": 2000 },
+        "mediaUrl": { "type": "string", "maxLength": 1024 },
+        "mediaType": { "type": "string", "enum": ["image", "video", "carousel", "none"] },
+        "audience": { "type": "string", "enum": ["public", "followers", "close_friends"] },
+        "likesCount": { "type": "number" },
+        "commentsCount": { "type": "number" },
+        "repostsCount": { "type": "number" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "authorId", "authorName", "content", "createdAt"]
+    },
+    "Comment": {
+      "title": "Comment",
+      "description": "Comment on a post",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "postId": { "type": "string", "maxLength": 128 },
+        "authorId": { "type": "string", "maxLength": 128 },
+        "authorName": { "type": "string", "maxLength": 100 },
+        "authorPhotoURL": { "type": "string", "maxLength": 1024 },
+        "text": { "type": "string", "maxLength": 1000 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "postId", "authorId", "text", "createdAt"]
+    },
+    "Like": {
+      "title": "Like",
+      "description": "User like record on a post",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "postId": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "postId", "userId", "createdAt"]
+    },
+    "Follow": {
+      "title": "Follow",
+      "description": "Social follower relationship",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "followerId": { "type": "string", "maxLength": 128 },
+        "followingId": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "followerId", "followingId", "createdAt"]
+    },
+    "Block": {
+      "title": "Block",
+      "description": "User block record to restrict interactions and visibility",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "blockerId": { "type": "string", "maxLength": 128 },
+        "blockedId": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "blockerId", "blockedId", "createdAt"]
+    },
+    "FollowRequest": {
+      "title": "FollowRequest",
+      "description": "Pending follow request for private accounts",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "fromUserId": { "type": "string", "maxLength": 128 },
+        "toUserId": { "type": "string", "maxLength": 128 },
+        "fromUserName": { "type": "string", "maxLength": 100 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "fromUserId", "toUserId", "createdAt"]
+    },
+    "Report": {
+      "title": "Report",
+      "description": "User safety or abuse report record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "reporterId": { "type": "string", "maxLength": 128 },
+        "reportedUserId": { "type": "string", "maxLength": 128 },
+        "reportedUserName": { "type": "string", "maxLength": 100 },
+        "category": { "type": "string", "maxLength": 50 },
+        "description": { "type": "string", "maxLength": 2000 },
+        "status": { "type": "string", "enum": ["Pending", "Under Review", "Action Taken", "Rejected", "Closed"] },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "reporterId", "reportedUserId", "category", "description", "status"]
+    },
+    "Conversation": {
+      "title": "Conversation",
+      "description": "Private or group chat conversation",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "participants": { "type": "array" },
+        "lastMessage": { "type": "string", "maxLength": 500 },
+        "lastSenderId": { "type": "string", "maxLength": 128 },
+        "updatedAt": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "participants", "createdAt"]
+    },
+    "Message": {
+      "title": "Message",
+      "description": "Direct message in a conversation",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "conversationId": { "type": "string", "maxLength": 128 },
+        "senderId": { "type": "string", "maxLength": 128 },
+        "senderName": { "type": "string", "maxLength": 100 },
+        "text": { "type": "string", "maxLength": 2000 },
+        "isEncrypted": { "type": "boolean" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "conversationId", "senderId", "text", "createdAt"]
+    },
+    "TimeCapsule": {
+      "title": "TimeCapsule",
+      "description": "Future memory time capsule",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 200 },
+        "content": { "type": "string", "maxLength": 2000 },
+        "unlockDate": { "type": "string", "maxLength": 50 },
+        "isUnlocked": { "type": "boolean" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "userId", "title", "content", "unlockDate", "createdAt"]
+    },
+    "Admin": {
+      "title": "Admin",
+      "description": "Authorized platform administrator document",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "email": { "type": "string", "maxLength": 256 },
+        "role": { "type": "string", "enum": ["superadmin", "moderator"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "email", "role"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "User profiles indexed by UID"
+    },
+    "/posts/{postId}": {
+      "schema": { "$ref": "#/entities/Post" },
+      "description": "Vandeya social feed posts"
+    },
+    "/posts/{postId}/comments/{commentId}": {
+      "schema": { "$ref": "#/entities/Comment" },
+      "description": "Comments on a post"
+    },
+    "/likes/{likeId}": {
+      "schema": { "$ref": "#/entities/Like" },
+      "description": "Likes associated with posts"
+    },
+    "/follows/{followId}": {
+      "schema": { "$ref": "#/entities/Follow" },
+      "description": "Follower and following linkages"
+    },
+    "/blocks/{blockId}": {
+      "schema": { "$ref": "#/entities/Block" },
+      "description": "Active user blocks"
+    },
+    "/follow_requests/{requestId}": {
+      "schema": { "$ref": "#/entities/FollowRequest" },
+      "description": "Follow requests for private accounts"
+    },
+    "/reports/{reportId}": {
+      "schema": { "$ref": "#/entities/Report" },
+      "description": "Safety and abuse complaints"
+    },
+    "/conversations/{conversationId}": {
+      "schema": { "$ref": "#/entities/Conversation" },
+      "description": "Chat conversations"
+    },
+    "/conversations/{conversationId}/messages/{messageId}": {
+      "schema": { "$ref": "#/entities/Message" },
+      "description": "Chat messages within a conversation"
+    },
+    "/timeCapsules/{capsuleId}": {
+      "schema": { "$ref": "#/entities/TimeCapsule" },
+      "description": "Future memory time capsules"
+    },
+    "/admins/{adminId}": {
+      "schema": { "$ref": "#/entities/Admin" },
+      "description": "Platform administrator records"
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "VANDEYA - India's Social Universe",
+  "description": "VANDEYA (वंदेया) - India's next-generation social networking super app. Connect India, inspire the world.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
